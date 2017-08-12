@@ -1,0 +1,27 @@
+---
+- name: "install Docker version {{ docker_version }}"
+  apt:
+    deb: "https://download.docker.com/linux/{{ distro }}/dists/{{ distro_version }}/pool/stable/amd64/docker-ce_{{ docker_version }}~ce-0~{{ distro }}-{{ distro_version }}_amd64.deb"
+
+- name: ensure Docker service is started
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: "add user {{ username }} to Docker group"
+  user:
+    name: "{{ username }}"
+    groups: docker
+    append: yes
+
+- name: "install Docker Compose version {{ docker_compose_version }}"
+  shell: curl -L https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  args:
+    warn: no
+    creates: /usr/local/bin/docker-compose
+
+- name: apply executable permissions to the docker-compose binary
+  file:
+    path: /usr/local/bin/docker-compose
+    mode: a+x

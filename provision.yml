@@ -2,6 +2,15 @@
 - hosts: localhost
   vars:
     devel_user: devel
+    os_distro: ubuntu
+    os_distro_version: xenial
   roles:
     - role: user_environment
       username: "{{ devel_user }}"
+
+    - role: docker_compose_user_install
+      docker_version: 17.03.2
+      docker_compose_version: 1.14.0
+      username: "{{ devel_user }}"
+      distro: "{{ os_distro }}"
+      distro_version: "{{ os_distro_version }}"
