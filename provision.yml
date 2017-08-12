@@ -14,3 +14,6 @@
       username: "{{ devel_user }}"
       distro: "{{ os_distro }}"
       distro_version: "{{ os_distro_version }}"
+
+    - role: nodejs_install
+      major_version: 8
